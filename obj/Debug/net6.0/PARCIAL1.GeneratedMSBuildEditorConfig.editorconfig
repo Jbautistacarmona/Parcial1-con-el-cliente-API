@@ -1,0 +1,105 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = PARCIAL1
+build_property.RootNamespace = PARCIAL1
+build_property.ProjectDir = C:\Users\thedo\Desktop\prueba API\Parcial1\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\thedo\Desktop\prueba API\Parcial1
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/thedo/Desktop/prueba API/Parcial1/Views/Alquilers/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWxxdWlsZXJzXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thedo/Desktop/prueba API/Parcial1/Views/Alquilers/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWxxdWlsZXJzXERlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thedo/Desktop/prueba API/Parcial1/Views/Alquilers/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWxxdWlsZXJzXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thedo/Desktop/prueba API/Parcial1/Views/Alquilers/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWxxdWlsZXJzXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thedo/Desktop/prueba API/Parcial1/Views/Alquilers/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWxxdWlsZXJzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thedo/Desktop/prueba API/Parcial1/Views/Clientes/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50ZXNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thedo/Desktop/prueba API/Parcial1/Views/Clientes/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50ZXNcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thedo/Desktop/prueba API/Parcial1/Views/Clientes/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50ZXNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thedo/Desktop/prueba API/Parcial1/Views/Clientes/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50ZXNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thedo/Desktop/prueba API/Parcial1/Views/Clientes/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50ZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thedo/Desktop/prueba API/Parcial1/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thedo/Desktop/prueba API/Parcial1/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thedo/Desktop/prueba API/Parcial1/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thedo/Desktop/prueba API/Parcial1/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thedo/Desktop/prueba API/Parcial1/Views/Tipovehiculos/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlwb3ZlaGljdWxvc1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thedo/Desktop/prueba API/Parcial1/Views/Tipovehiculos/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlwb3ZlaGljdWxvc1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thedo/Desktop/prueba API/Parcial1/Views/Tipovehiculos/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlwb3ZlaGljdWxvc1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thedo/Desktop/prueba API/Parcial1/Views/Tipovehiculos/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlwb3ZlaGljdWxvc1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thedo/Desktop/prueba API/Parcial1/Views/Tipovehiculos/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlwb3ZlaGljdWxvc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thedo/Desktop/prueba API/Parcial1/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thedo/Desktop/prueba API/Parcial1/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thedo/Desktop/prueba API/Parcial1/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-7lp53qunap

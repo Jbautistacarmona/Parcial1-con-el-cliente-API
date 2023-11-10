@@ -1,0 +1,137 @@
+﻿@model IEnumerable<PARCIAL1.Models.Tipovehiculo>
+
+<style>
+    /* Fondo de la página con una imagen relajante */
+    body {
+        background-image: url('car-rental-html-template.jpg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+
+    /* Estilo CSS para centrar el título principal */
+    h1 {
+        text-align: center;
+        color: #3498db; /* Azul suave */
+        text-shadow: 2px 2px 4px #000;
+        margin-bottom: 20px; /* Agregado para separar el título de la siguiente sección */
+    }
+
+    /* Estilo para la tabla de tipos de vehículos */
+    .table-container {
+        max-height: 400px; /* Altura máxima para la tabla */
+        overflow-y: auto; /* Permitir desplazamiento vertical */
+    }
+
+    table {
+        width: 100%;
+        border: 1px solid #ddd; /* Gris claro */
+        border-radius: 10px; /* Bordes redondeados */
+        margin: 20px auto;
+    }
+
+        table th {
+            background-color: #3498db; /* Azul suave */
+            color: black; /* Texto blanco */
+            padding: 10px;
+            text-align: center;
+        }
+
+        table td {
+            padding: 10px;
+            text-align: center;
+        }
+
+    /* Estilo para los botones */
+    .btn-container {
+        margin-bottom: 20px; /* Agregado para separar los botones de la siguiente sección */
+    }
+
+    .btn {
+        border-radius: 5px;
+        margin: 10px 5px;
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background-color: #3498db; /* Azul suave */
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+
+    .btn-danger {
+        background-color: #e74c3c; /* Rojo suave */
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+
+    /* Estilo para los enlaces de acciones */
+    .action-link {
+        text-decoration: none;
+        color: #3498db; /* Azul suave */
+    }
+
+        .action-link:hover {
+            text-decoration: underline;
+        }
+</style>
+
+<div class="container">
+    <h1>Tipos de Vehículos</h1>
+
+    <div class="btn-container">
+        <a asp-action="Create" class="btn btn-primary">Crear Nuevo</a>
+        <a href="/" class="btn btn-danger">Volver a la página principal</a>
+    </div>
+
+    <div class="table-container">
+        <table class="table table-striped">
+            <thead class="thead-light">
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Nombre
+                    </th>
+                    <th>
+                        Tarifa por Día
+                    </th>
+                    <th>
+                        Acciones
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TipoVehiculoID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TarifaPorDia)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.TipoVehiculoID" class="btn btn-info">Editar</a>
+                            <a asp-action="Delete" asp-route-id="@item.TipoVehiculoID" class="btn btn-danger">Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+

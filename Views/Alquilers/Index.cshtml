@@ -1,0 +1,147 @@
+﻿@model IEnumerable<PARCIAL1.Models.Alquiler>
+
+@{
+    ViewData["Title"] = "PROGRAMA PARA GESTION DE VEHICULOS";
+}
+
+<style>
+    /* Fondo de la página con una imagen relajante */
+    body {
+        background-image: url(''); /* Ruta relativa desde la raíz del sitio web */
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+
+    /* Estilo para el título */
+    .encabezado-verde {
+        color: #3498db; /* Azul suave */
+        text-align: center;
+        text-shadow: 2px 2px 4px #000;
+        margin-bottom: 20px; /* Agregado para separar el título de la siguiente sección */
+    }
+
+    /* Estilo para la descripción */
+    .descripcion {
+        text-align: center;
+        font-size: 18px;
+        color: #000; /* Gris oscuro */
+        margin-bottom: 30px; /* Agregado para separar la descripción de la siguiente sección */
+    }
+
+    /* Estilo para los botones */
+    .btn-container {
+        margin-bottom: 20px; /* Agregado para separar los botones de la siguiente sección */
+    }
+
+    /* Estilo para la tabla con marco y barra de desplazamiento */
+    .tabla-con-scroll {
+        max-height: 450px; /* Puedes ajustar esta línea según sea necesario */
+        overflow-y: auto;
+        border: 1px solid #ddd; /* Gris claro */
+        border-radius: 10px; /* Bordes redondeados */
+        padding: 10px;
+        width: 110%; /* Hace que la tabla ocupe el 100% del contenedor */
+    }
+
+        /* Estilo para el encabezado de la tabla (thead) */
+        .tabla-con-scroll thead {
+            position: sticky;
+            top: 0;
+            background-color: white; /* Fondo blanco para destacar el encabezado */
+            color: black; /* Letras del encabezado en negro */
+            z-index: 1; /* Asegura que el encabezado esté en la parte superior */
+        }
+</style>
+
+<div class="container">
+    <h1 class="encabezado-verde">Bienvenido a nuestro Programa de Gestión de Vehículos</h1>
+    <p class="descripcion">Descubre una forma relajante de administrar tus alquileres de vehículos.</p>
+</div>
+
+<div class="container btn-container">
+    <a class="btn btn-primary" asp-action="Create">Nuevo Alquiler</a>
+    <a class="btn btn-primary" asp-action="Create" asp-controller="Clientes">Nuevo Cliente</a>
+    <a class="btn btn-primary" asp-action="Create" asp-controller="TipoVehiculos">Nuevo Tipo de Vehículo</a>
+    <button class="btn btn-success" id="btnImprimir">Imprimir</button>
+</div>
+
+<div class="container tabla-con-scroll">
+    <table class="table table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Fecha de Inicio
+                </th>
+                <th>
+                    Fecha de Fin
+                </th>
+                <th>
+                    Cliente
+                </th>
+                <th>
+                    Tipo de Vehículo
+                </th>
+                <th>
+                    Tarifa por Día
+                </th>
+                <th>
+                    Monto Cobro
+                </th>
+                <th>
+                    Días Rentados
+                </th>
+                <th>
+                    Acciones
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var diasTranscurridos = (item.FechaFin - item.FechaInicio).TotalDays;
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AlquilerID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaInicio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaFin)
+                    </td>
+                    <td>
+                        @ViewBag.Clientes[item.ClienteID]
+                    </td>
+                    <td>
+                        @ViewBag.TiposDeVehiculoID[item.TipoVehiculoID]
+                    </td>
+                    <td>
+                        @ViewBag.TiposDeVehiculoTarifa[item.TipoVehiculoID]
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MontoCobro)
+                    </td>
+                    <td>
+                        @diasTranscurridos
+                    </td>
+                    <td>
+                        <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.AlquilerID">Editar</a>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.AlquilerID">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById("btnImprimir").addEventListener("click", function () {
+            window.print();
+        });
+    </script>
+}

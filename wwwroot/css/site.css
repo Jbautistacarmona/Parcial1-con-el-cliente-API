@@ -1,0 +1,27 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+
+/* Otros estilos CSS que puedas tener en tu archivo */
+
+/* Estilo CSS para la tabla con barra de desplazamiento */
+.tabla-con-scroll {
+    max-height: 400px; /* Altura máxima de la tabla antes de que aparezca la barra de desplazamiento */
+    overflow-y: auto; /* Habilitar la barra de desplazamiento vertical */
+}
