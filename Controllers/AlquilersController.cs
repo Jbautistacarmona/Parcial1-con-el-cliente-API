@@ -89,7 +89,7 @@ namespace PARCIAL1.Controllers
                     // Crear diccionarios para clientes, tipos de vehículos y tarifas por día
                     var clientesDictionary = clientes.ToDictionary(c => c.ClienteID, c => c.Nombre);
                     var tiposDeVehiculoDictionary = tiposDeVehiculo.ToDictionary(t => t.TipoVehiculoID, t => new {t.Nombre,});
-                    var tiposDeVehiculoDictionary1 = tiposDeVehiculo.ToDictionary(t => t.TipoVehiculoID, t => new {t.TarifaPorDia });
+                    var tiposDeVehiculoDictionary1 = tiposDeVehiculo.ToDictionary(t => t.TipoVehiculoID, t => new {t.TarifaPorDia});
 
                     // Pasar la información adicional a la vista usando ViewBag
                     ViewBag.Clientes = clientes.ToDictionary(c => c.ClienteID, c => c.Nombre);
@@ -343,8 +343,94 @@ namespace PARCIAL1.Controllers
             }
             return tipovehiculos;
         }
+
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
+        {
+            var alquiler = await ObtenerAlquilerAsync(id);
+
+            if (alquiler != null)
+            {
+                // Cargar las listas de clientes y tipos de vehículos
+                ViewBag.Clientes = new SelectList(await ObtenerClientesAsync(), "ClienteID", "Nombre");
+                ViewBag.Tipovehiculos = new SelectList(await ObtenerTipovehiculosAsync(), "TipoVehiculoID", "Nombre");
+
+                return View(alquiler);
+            }
+            else
+            {
+                // Maneja el error si no se pudo obtener el alquiler desde la API
+                return Problem("No se pudo obtener el alquiler desde la API.");
+            }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("AlquilerID, ClienteID, TipoVehiculoID, FechaInicio, FechaFin")] AlquilerUpdateDto alquilerDto)
+        {
+
+            try
+            {
+                // Verificación adicional antes de la serialización
+                if (alquilerDto.AlquilerID <= 0)
+                {
+                    ModelState.AddModelError(nameof(alquilerDto.AlquilerID), "El ID del alquiler no es válido.");
+                    return View(alquilerDto);
+                }
+
+                if (ModelState.IsValid)
+                {
+                    using (var client = new HttpClient())
+                    {
+                        client.BaseAddress = new Uri(apiUrl);
+                        client.DefaultRequestHeaders.Accept.Clear();
+                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                        // Calcular la duración del alquiler
+                        TimeSpan duracion = alquilerDto.FechaFin - alquilerDto.FechaInicio;
+
+                        // Calcular el monto total a cobrar
+                        decimal tarifaPorDia = await ObtenerTarifaPorDiaAsync(alquilerDto.TipoVehiculoID);
+                        decimal montoCobro = tarifaPorDia * (decimal)duracion.TotalDays;
+
+                        // Actualizar el campo MontoCobro en alquilerDto
+                        alquilerDto.MontoCobro = montoCobro;
+
+                        // Cargar las listas de clientes y tipos de vehículos
+                        ViewBag.Clientes = new SelectList(await ObtenerClientesAsync(), "ClienteID", "Nombre");
+                        ViewBag.Tipovehiculos = new SelectList(await ObtenerTipovehiculosAsync(), "TipoVehiculoID", "Nombre");
+
+                        var alquilerJson = JsonConvert.SerializeObject(alquilerDto);
+                        System.Diagnostics.Debug.WriteLine($"Contenido de la solicitud: {alquilerJson}");
+                        var content = new StringContent(alquilerJson, System.Text.Encoding.UTF8, "application/json");
+
+                        HttpResponseMessage response = await client.PutAsync($"/api/Alquilers/{id}", content);
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            return RedirectToAction(nameof(Index));
+                        }
+                        else
+                        {
+                            // Maneja el error e imprime detalles en la consola
+                            System.Diagnostics.Debug.WriteLine($"Error al actualizar el alquiler. Código de estado: {response.StatusCode}");
+
+                            var errorContent = await response.Content.ReadAsStringAsync();
+                            System.Diagnostics.Debug.WriteLine($"Contenido del error: {errorContent}");
+
+                            ModelState.AddModelError(string.Empty, "Error al actualizar el alquiler en la API.");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, $"Error: {ex.Message}");
+            }
+
+            // Si llegamos a este punto, algo salió mal, vuelve a la vista con el modelo
+            return View(alquilerDto);
+        }
+        private async Task<AlquilerUpdateDto> ObtenerAlquilerAsync(int id)
         {
             using (var client = new HttpClient())
             {
@@ -357,24 +443,15 @@ namespace PARCIAL1.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var alquilerJson = await response.Content.ReadAsStringAsync();
-                    var alquiler = JsonConvert.DeserializeObject<AlquilerUpdateDto>(alquilerJson);
-
-                    // Cargar las listas de clientes y tipos de vehículos
-                    ViewBag.Clientes = new SelectList(await ObtenerClientesAsync(), "ClienteID", "Nombre");
-                    ViewBag.Tipovehiculos = new SelectList(await ObtenerTipovehiculosAsync(), "TipoVehiculoID", "Nombre");
-
-                    return View(alquiler);
+                    return JsonConvert.DeserializeObject<AlquilerUpdateDto>(alquilerJson);
                 }
                 else
                 {
-                    // Maneja el error si no se pudo obtener el alquiler desde la API
-                    return Problem("No se pudo obtener el alquiler desde la API.");
+                    return null;
                 }
             }
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ClienteID, TipoVehiculoID, FechaInicio, FechaFin")] AlquilerUpdateDto alquilerDto)
+        private async Task<decimal> ObtenerTarifaPorDiaAsync(int tipoVehiculoID)
         {
             using (var client = new HttpClient())
             {
@@ -382,26 +459,21 @@ namespace PARCIAL1.Controllers
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                // Cargar las listas de clientes y tipos de vehículos
-                ViewBag.Clientes = new SelectList(await ObtenerClientesAsync(), "ClienteID", "Nombre");
-                ViewBag.Tipovehiculos = new SelectList(await ObtenerTipovehiculosAsync(), "TipoVehiculoID", "Nombre");
-
-                var alquilerJson = JsonConvert.SerializeObject(alquilerDto);
-                var content = new StringContent(alquilerJson, System.Text.Encoding.UTF8, "application/json");
-
-                HttpResponseMessage response = await client.PutAsync($"/api/Alquilers/{id}", content);
+                HttpResponseMessage response = await client.GetAsync($"/api/Tipovehiculos/{tipoVehiculoID}");
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return RedirectToAction(nameof(Index));
+                    var tipovehiculoJson = await response.Content.ReadAsStringAsync();
+                    var tipovehiculo = JsonConvert.DeserializeObject<TipovehiculoUpdateDto>(tipovehiculoJson);
+                    return tipovehiculo.TarifaPorDia;
                 }
                 else
                 {
-                    // Maneja el error si la API no pudo actualizar el alquiler
-                    ModelState.AddModelError(string.Empty, "Error al actualizar el alquiler en la API.");
+                    // Manejar el error si no se pudo obtener el tipo de vehículo desde la API
+                    // Puedes lanzar una excepción o devolver un valor predeterminado, según tus necesidades
+                    throw new Exception("Error al obtener el tipo de vehículo desde la API.");
                 }
             }
-            return View(alquilerDto);
         }
         [HttpGet]
         public async Task<IActionResult> Delete(int id)

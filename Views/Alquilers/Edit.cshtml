@@ -1,14 +1,7 @@
 ﻿@model PARCIAL1.Models.AlquilerUpdateDto
 
 <style>
-    body {
-        background-image: url('car-rental-html-template.jpg');
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-    }
-
-    h1 {
+   h1 {
         text-align: center;
         color: #3498db;
         text-shadow: 2px 2px 4px #000;
@@ -52,11 +45,14 @@
     ViewData["Title"] = "Editar alquiler";
 }
 
-<h1>Editando Alquiler</h1>
+<<h1>Editando Alquiler</h1>
 
 <div class="form-container">
     <form asp-action="Edit">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <!-- Agregar campo oculto para AlquilerID -->
+        <input asp-for="AlquilerID" type="hidden" />
 
         <div class="form-group">
             <label asp-for="ClienteID" class="control-label">Cliente</label>

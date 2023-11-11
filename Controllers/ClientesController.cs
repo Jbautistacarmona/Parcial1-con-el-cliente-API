@@ -40,7 +40,6 @@ namespace PARCIAL1.Controllers
                 }
             }
         }
-
         [HttpGet]
         public IActionResult Create()
         {
@@ -76,9 +75,81 @@ namespace PARCIAL1.Controllers
 
             return View(clienteDto);
         }
-
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
+        {
+            var cliente = await ObtenerClienteAsync(id);
+
+            if (cliente != null)
+            {
+                return View(cliente);
+            }
+            else
+            {
+                // Maneja el error si no se pudo obtener el cliente desde la API
+                return Problem("No se pudo obtener el cliente desde la API.");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("ClienteID, Nombre, Email, Telefono")] ClienteUpdateDto clienteDto)
+        {
+            try
+            {
+                // Verificación adicional antes de la serialización
+                if (clienteDto.ClienteID <= 0)
+                {
+                    ModelState.AddModelError(nameof(clienteDto.ClienteID), "El ID del cliente no es válido.");
+                    return View(clienteDto);
+                }
+
+                if (ModelState.IsValid)
+                {
+                    using (var client = new HttpClient())
+                    {
+                        client.BaseAddress = new Uri(apiUrl);
+                        client.DefaultRequestHeaders.Accept.Clear();
+                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                        var clienteJson = JsonConvert.SerializeObject(clienteDto);
+                        var content = new StringContent(clienteJson, System.Text.Encoding.UTF8, "application/json");
+
+                        HttpResponseMessage response = await client.PutAsync($"/api/Clientes/{id}", content);
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            // Mensaje de depuración
+                            System.Diagnostics.Debug.WriteLine($"Cliente actualizado correctamente. ID: {id}");
+
+                            return RedirectToAction(nameof(Index));
+                        }
+                        else
+                        {
+                            // Mensaje de depuración
+                            System.Diagnostics.Debug.WriteLine($"Error al actualizar el cliente. Código de estado: {response.StatusCode}");
+
+                            var errorContent = await response.Content.ReadAsStringAsync();
+                            System.Diagnostics.Debug.WriteLine($"Contenido del error: {errorContent}");
+
+                            ModelState.AddModelError(string.Empty, "Error al actualizar el cliente en la API.");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Mensaje de depuración
+                System.Diagnostics.Debug.WriteLine($"Excepción al actualizar el cliente: {ex.Message}");
+
+                ModelState.AddModelError(string.Empty, $"Error: {ex.Message}");
+            }
+
+            // Si llegamos a este punto, algo salió mal, vuelve a la vista con el modelo
+            return View(clienteDto);
+        }
+
+        private async Task<ClienteUpdateDto> ObtenerClienteAsync(int id)
         {
             using (var client = new HttpClient())
             {
@@ -91,43 +162,13 @@ namespace PARCIAL1.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var clienteJson = await response.Content.ReadAsStringAsync();
-                    var cliente = JsonConvert.DeserializeObject<ClienteUpdateDto>(clienteJson);
-                    return View(cliente);
+                    return JsonConvert.DeserializeObject<ClienteUpdateDto>(clienteJson);
                 }
                 else
                 {
-                    // Maneja el error si no se pudo obtener el cliente desde la API
-                    return Problem("No se pudo obtener el cliente desde la API.");
+                    return null;
                 }
             }
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Nombre, Email, Telefono")] ClienteUpdateDto clienteDto)
-        {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(apiUrl);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                var clienteJson = JsonConvert.SerializeObject(clienteDto);
-                var content = new StringContent(clienteJson, System.Text.Encoding.UTF8, "application/json");
-
-                HttpResponseMessage response = await client.PutAsync($"/api/Clientes/{id}", content);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                else
-                {
-                    // Maneja el error si la API no pudo actualizar el cliente
-                    ModelState.AddModelError(string.Empty, "Error al actualizar el cliente en la API.");
-                }
-            }
-            return View(clienteDto);
         }
         [HttpGet]
         public async Task<IActionResult> Delete(int id)

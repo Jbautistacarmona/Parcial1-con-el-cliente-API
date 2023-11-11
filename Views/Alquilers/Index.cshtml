@@ -102,16 +102,19 @@
         <tbody>
             @foreach (var item in Model)
             {
-                var diasTranscurridos = (item.FechaFin - item.FechaInicio).TotalDays;
+                var diasTranscurridos = (int)(item.FechaFin.Date - item.FechaInicio.Date).TotalDays; // Solo toma la parte de la fecha sin la hora
+                var fechaInicioFormatted = item.FechaInicio.ToString("dd/MM/yyyy");
+                var fechaFinFormatted = item.FechaFin.ToString("dd/MM/yyyy");
+
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.AlquilerID)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.FechaInicio)
+                        @fechaInicioFormatted <!-- Muestra solo el día -->
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.FechaFin)
+                        @fechaFinFormatted <!-- Muestra solo el día -->
                     </td>
                     <td>
                         @ViewBag.Clientes[item.ClienteID]
@@ -126,7 +129,7 @@
                         @Html.DisplayFor(modelItem => item.MontoCobro)
                     </td>
                     <td>
-                        @diasTranscurridos
+                        @diasTranscurridos.ToString("D2") <!-- Muestra solo 2 cifras -->
                     </td>
                     <td>
                         <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.AlquilerID">Editar</a>

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ATyJL0EC7GHraPEbeqte7RGQek89wEtApx9L5qGzM0SvsGP8WshCO/XI+cFUbYs3fPzJ+TWO+I2DmLUugyzzCg==",
+  "dgSpecHash": "8U4DGCv9PiS2F8cij5dRYpP7PiCtpGxNUGIVDMqdW4VU1LYsYhkfv40d0f+dcXWIBpzo28nBEVOC8/0tP7H7vA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\thedo\\Desktop\\ver2 creando API\\Parcial1 con el cliente API\\PARCIAL1.csproj",
+  "projectFilePath": "C:\\Users\\thedo\\Documents\\GitHub\\Parcial1-con-el-cliente-API\\PARCIAL1.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\thedo\\.nuget\\packages\\audit.entityframework.core\\21.1.0\\audit.entityframework.core.21.1.0.nupkg.sha512",
     "C:\\Users\\thedo\\.nuget\\packages\\audit.net\\21.1.0\\audit.net.21.1.0.nupkg.sha512",

@@ -40,7 +40,6 @@ namespace PARCIAL1.Controllers
                 }
             }
         }
-
         [HttpGet]
         public IActionResult Create()
         {
@@ -80,6 +79,77 @@ namespace PARCIAL1.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
+            var tipovehiculo = await ObtenerTipovehiculoAsync(id);
+
+            if (tipovehiculo != null)
+            {
+                return View(tipovehiculo);
+            }
+            else
+            {
+                // Maneja el error si no se pudo obtener el cliente desde la API
+                return Problem("No se pudo obtener el Tipo de vehiculo desde la API.");
+            }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("TipoVehiculoID, Nombre, TarifaPorDia")] TipovehiculoUpdateDto tipoVehiculoDto)
+        {
+            try
+            {
+                // Verificación adicional antes de la serialización
+                if (tipoVehiculoDto.TipoVehiculoID <= 0)
+                {
+                    ModelState.AddModelError(nameof(tipoVehiculoDto.TipoVehiculoID), "El ID del cliente no es válido.");
+                    return View(tipoVehiculoDto);
+                }
+
+                if (ModelState.IsValid)
+                {
+                    using (var client = new HttpClient())
+                    {
+                        client.BaseAddress = new Uri(apiUrl);
+                        client.DefaultRequestHeaders.Accept.Clear();
+                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                        var clienteJson = JsonConvert.SerializeObject(tipoVehiculoDto);
+                        var content = new StringContent(clienteJson, System.Text.Encoding.UTF8, "application/json");
+
+                        HttpResponseMessage response = await client.PutAsync($"/api/Tipovehiculos/{id}", content);
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            // Mensaje de depuración
+                            System.Diagnostics.Debug.WriteLine($"Tipovehiculo actualizado correctamente. ID: {id}");
+
+                            return RedirectToAction(nameof(Index));
+                        }
+                        else
+                        {
+                            // Mensaje de depuración
+                            System.Diagnostics.Debug.WriteLine($"Error al actualizar el Tipovehiculo. Código de estado: {response.StatusCode}");
+
+                            var errorContent = await response.Content.ReadAsStringAsync();
+                            System.Diagnostics.Debug.WriteLine($"Contenido del error: {errorContent}");
+
+                            ModelState.AddModelError(string.Empty, "Error al actualizar el cliente en la API.");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Mensaje de depuración
+                System.Diagnostics.Debug.WriteLine($"Excepción al actualizar el tipovehiculo: {ex.Message}");
+
+                ModelState.AddModelError(string.Empty, $"Error: {ex.Message}");
+            }
+
+            // Si llegamos a este punto, algo salió mal, vuelve a la vista con el modelo
+            return View(tipoVehiculoDto);
+        }
+        private async Task<TipovehiculoUpdateDto> ObtenerTipovehiculoAsync(int id)
+        {
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(apiUrl);
@@ -90,45 +160,14 @@ namespace PARCIAL1.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var TipovehiculoJson = await response.Content.ReadAsStringAsync();
-                    var Tipovehiculo = JsonConvert.DeserializeObject<TipovehiculoUpdateDto>(TipovehiculoJson); // Cambiado a TipovehiculoUpdateDto
-                    return View(Tipovehiculo);
+                    var clienteJson = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<TipovehiculoUpdateDto>(clienteJson);
                 }
                 else
                 {
-                    // Maneja el error si no se pudo obtener el tipo de vehículo desde la API
-                    return Problem("No se pudo obtener el tipo de vehículo desde la API.");
+                    return null;
                 }
             }
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Nombre, Descripcion")] TipovehiculoUpdateDto tipoVehiculoDto)
-        {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(apiUrl);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                var TipovehiculoJson = JsonConvert.SerializeObject(tipoVehiculoDto);
-                var content = new StringContent(TipovehiculoJson, System.Text.Encoding.UTF8, "application/json");
-
-                HttpResponseMessage response = await client.PutAsync($"/api/Tipovehiculos/{id}", content);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                else
-                {
-                    // Maneja el error si la API no pudo actualizar el tipo de vehículo
-                    ModelState.AddModelError(string.Empty, "Error al actualizar el tipo de vehículo en la API.");
-                }
-            }
-
-            return View(tipoVehiculoDto);
         }
 
         [HttpGet]

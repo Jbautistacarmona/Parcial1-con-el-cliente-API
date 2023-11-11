@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\thedo\\Desktop\\ver2 creando API\\Parcial1 con el cliente API\\PARCIAL1.csproj": {}
+    "C:\\Users\\thedo\\Documents\\GitHub\\Parcial1-con-el-cliente-API\\PARCIAL1.csproj": {}
   },
   "projects": {
-    "C:\\Users\\thedo\\Desktop\\ver2 creando API\\Parcial1 con el cliente API\\PARCIAL1.csproj": {
+    "C:\\Users\\thedo\\Documents\\GitHub\\Parcial1-con-el-cliente-API\\PARCIAL1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\thedo\\Desktop\\ver2 creando API\\Parcial1 con el cliente API\\PARCIAL1.csproj",
+        "projectUniqueName": "C:\\Users\\thedo\\Documents\\GitHub\\Parcial1-con-el-cliente-API\\PARCIAL1.csproj",
         "projectName": "PARCIAL1",
-        "projectPath": "C:\\Users\\thedo\\Desktop\\ver2 creando API\\Parcial1 con el cliente API\\PARCIAL1.csproj",
+        "projectPath": "C:\\Users\\thedo\\Documents\\GitHub\\Parcial1-con-el-cliente-API\\PARCIAL1.csproj",
         "packagesPath": "C:\\Users\\thedo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\thedo\\Desktop\\ver2 creando API\\Parcial1 con el cliente API\\obj\\",
+        "outputPath": "C:\\Users\\thedo\\Documents\\GitHub\\Parcial1-con-el-cliente-API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\thedo\\AppData\\Roaming\\NuGet\\NuGet.Config",
