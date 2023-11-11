@@ -1,9 +1,28 @@
 ﻿@{
     ViewData["Title"] = "Creador Derecho de Autor";
 }
-<h1>@ViewData["PROGRAMA PARA GESTION DE VEHICULOS"]</h1>
 
-<h1>Jose Manuel Bautista Carmona.</h1>
-<p>Matricula 06-0519.</p>
-<p>Lenguaje de Programación II.</p>
-<p>Profesor Ambiorix Liriano.</p>
+<style>
+    /* Estilo para centrar textos */
+    .text-center {
+        text-align: center;
+    }
+
+    /* Estilo para centrar el contenido del contenedor */
+    .container-center {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 50vh; /* Esto centra el contenido verticalmente */
+    }
+</style>
+
+<div class="container container-center">
+    <h1 class="text-center">@ViewData["Title"]</h1>
+
+    <h1 class="text-center">Jose Manuel Bautista Carmona.</h1>
+    <p class="text-center">Matricula 06-0519.</p>
+    <p class="text-center">Lenguaje de Programación II.</p>
+    <p class="text-center">Profesor Ambiorix Liriano.</p>
+</div>
