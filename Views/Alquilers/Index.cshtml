@@ -52,6 +52,19 @@
             color: black; /* Letras del encabezado en negro */
             z-index: 1; /* Asegura que el encabezado esté en la parte superior */
         }
+
+    <style >
+    /* Estilos (código existente) */
+    .btn-circle {
+        width: 400px;
+        height: 400px;
+        font-size: 40px;
+        border-radius: 80%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+    }
 </style>
 
 <div class="container">
@@ -139,6 +152,15 @@
             }
         </tbody>
     </table>
+</div>
+<div class="container text-center mt-5">
+    </button>
+    <a class="btn btn-success btn-circle" asp-action="Index" asp-controller="TipoVehiculos">
+        Tipos de Vehículos
+    </a>
+    <a class="btn btn-success btn-circle ml-3" asp-action="Index" asp-controller="Clientes">
+        Clientes
+    </a>
 </div>
 
 @section Scripts {
